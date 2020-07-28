@@ -6,8 +6,7 @@
 
 ## Description
 
-There are many stages of learning a language. At some point in this learning, we realize it’s time to talk with a native speaker and practice everything we’ve learned so far. That’s where language exchange comes in. MeetUp helps you to find the right language exchange partner, one who shares our interests and has similar language goals. MeetUp 
-it allows you not only to improve a language, you also make great friends!
+There are many stages of learning a language. At some point in this learning, we realize it’s time to talk with a native speaker and practice everything we’ve learned so far. That’s where language exchange comes in. MeetUp helps you to find the right language exchange partner, one who shares our interests and has similar language goals. MeetUp allows you not only to improve a language, you also make great friends!
 
 ## Models
 
