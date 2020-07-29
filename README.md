@@ -21,6 +21,8 @@ There are many stages of learning a language. At some point in this learning, we
 - **login** - As a user I want to be able to log in on the web page so that I can get back to my account.
 - **logout** - As a user I want to be able to log out from the web page so that I can make sure no one will access my account.
 - **myPendingMeetings** - As a user I want to see the list of my pending meetings, create a new meeting, edit or delete them.
+- **createMeeting** - As a user I want to create a new meeting.
+- **editMeeting** - As a user I want to edit or delete the meeting.
 - **Profile** - As a user I want to be able to see my profile.
 - **edit user** - As a user I want to be able to edit my profile.
 - **meetings** - As a user I want to see all the list of uncoming meetings.
@@ -64,13 +66,13 @@ name: { type: String, required: true },
 email: { type, String, required: true }, 
 password: { type: String, required: true},
 address: { 
-        city: { type: String, required: true },
-        country: { tyoe: String, required: true }
+        city: { type: String },
+        country: { tyoe: String }
 }, 
 biography: { type: String }, 
-profileImage: { type: String, required: true }, 
-languagesISpeak: { type: String, required: true },
-iWantToLearn: { type: String, required: true },
+profileImage: { type: String }, 
+languagesISpeak: { type: String },
+iWantToLearn: { type: String },
 myPendingMeetings: [{ type: mongoose.Schema.Types.ObjectId, ref: "meetingSchema"}],
 myOrganizedMeetings: [{  type: mongoose.Schema.Types.ObjectId, ref: "meetingSchema"}]
 }
@@ -79,12 +81,12 @@ Meeting model
 
 ```javascript
 meetingName: { type: String, required: true }, 
-meetingImg: { type: String, required: true },
+meetingImg: { type: String },
 meetingDescription: { type: String, required: true },
 meetingLanguage: { type: String, required: true },
 meetingDate: { type: String, required: true },
 meetingPoint: { type: String, required: true },
-meetingOrganizer: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }], 
+meetingOrganizer: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, 
 meetingParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }]
 }
 ```
