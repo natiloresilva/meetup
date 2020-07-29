@@ -100,5 +100,20 @@ meetingParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", requi
 - Authentication with Gmail/ Facebook accounts.
 
 
+br>
+
+## Links
+
+[See the Trello board.]( https://trello.com/b/AAcslH6p/meetup)
+
+### Git
+
+The url to your repository and to your deployed project
+<br>
+
+### Slides
+
+The url to your presentation slides
+
 
 
