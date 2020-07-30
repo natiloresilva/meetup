@@ -12,7 +12,7 @@ const hbs = require('hbs');
 const mongoose = require('mongoose');
 
 mongoose
-  .connect('mongodb://localhost/uber-for-laundry', {
+  .connect('mongodb://localhost/meetup', {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })
@@ -26,8 +26,11 @@ mongoose
   });
 
 const indexRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
 
 const app = express();
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -44,6 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.use('/', indexRouter);
+app.use('/', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
