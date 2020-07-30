@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+//requerimos los siguientes modulos.
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -11,6 +12,11 @@ const favicon = require('serve-favicon');
 const hbs = require('hbs');
 const mongoose = require('mongoose');
 
+//requerimos los modulos 'express-sesion' y 'connect-mongo
+const session = require('express-session'); 
+const MongoStore = require('connect-mongo')(session); 
+
+//para conectarnos en nuestra base de datos 'meetup'
 mongoose
   .connect('mongodb://localhost/meetup', {
     useNewUrlParser: true,
@@ -25,36 +31,65 @@ mongoose
     console.error('Error connecting to mongo', err);
   });
 
+//nuestras rutas.
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
+const meetingRouter = require('./routes/meeting');
 
+//ejecutamos express.
 const app = express();
 
-
-
-// view engine setup
+//configuramos el formato de nuestras vistas, que sera con handleabrs. 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-// Middleware Setup
-
+//configuracion de middlewares.
 app.use(logger('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+//configuramos la sesion y la agregamos como middleware a nuestra aplicación.
+app.use(session({
+  secret: 'learn and practice a new language',
+  resave: true,
+  saveUninitialized: true,
+  cookie: { maxAge: 60000 },
+  store: new MongoStore({
+    mongooseConnection: mongoose.connection,
+    ttl: 24 * 60 * 60 // 1 day
+  })
+}))
+
+//este middleware verifica si hay una sesión. Si hay, setea algunos locals en la respuesta para que la vista acceda
+app.use((req, res, next) => {
+  if (req.session.currentUser) {
+    //local, la información del usuario de la sesion.
+    res.locals.currentUserInfo = req.session.currentUser;
+    //local, es un boleano, indica si hay un usuario conectado. 
+    res.locals.isUserLoggedIn = true;
+  } else {
+    res.locals.isUserLoggedIn = false;
+  }
+
+  next();
+});
+
+//ruta del favicon.
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 app.use('/', indexRouter);
-app.use('/', authRouter);
+app.use('/auth', authRouter);
+app.use('/meet', meetingRouter);
 
-// catch 404 and forward to error handler
+
+//catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// error handler
+//error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;

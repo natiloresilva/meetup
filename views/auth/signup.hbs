@@ -6,27 +6,29 @@
 </p>
 {{/if}}
 
-<form action="/signup" method="post">
-    <div>
+<form action="/auth/signup" method="post">
+    <div class="form-group">
         <label for="name-input"> Name </label>
-        <input type="text" name="name" id="name-input" placeholder="e.g., Diana Prince">
+        <input type="text"  class="form-control" name="name" id="name-input" placeholder="e.g., ironhacker">
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="email-input"> Email </label>
-        <input type="email" name="email" id="email-input" placeholder="e.g., diana@themyscira.agency">
+        <input type="email" class="form-control" name="email" id="email-input" placeholder="e.g., ironhack@ironhack.com">
     </div>
 
-    <div>
+    <div class="form-group">
         <label for="password-input"> Password </label>
-        <input type="password" name="password" id="password-input" placeholder="e.g., ••••••••••••">
+        <input type="password" class="form-control" name="password" id="password-input" placeholder="e.g., ••••••••••••">
     </div>
 
-    <button> Create New Account </button>
+    <button class="btn btn-primary"> Create New Account </button>
+
 </form>
 
 <p>
     Already have an account?
+    
     <a href="/login">
         Log in.
     </a>

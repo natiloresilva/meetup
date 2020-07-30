@@ -8,8 +8,8 @@ const meetingSchema = new Schema({
     meetingLanguage: { type: String, required: true },
     meetingDate: { type: String, required: true },
     meetingPoint: { type: String, required: true },
-    meetingOrganizer: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, 
-    meetingParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }]
+    meetingOrganizer: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, 
+    meetingParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
  });
 
 meetingSchema.set('timestamps', true);

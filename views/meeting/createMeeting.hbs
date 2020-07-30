@@ -1,0 +1,53 @@
+<h2> New Meeting </h2>
+
+{{#if errorMessage}}
+<p class="error-message">
+    {{ errorMessage }}
+</p>
+{{/if}}
+
+<form action="/meet/createMeeting" method="post">
+
+    <div class="form-group">
+        <label for="meetingName"> Name </label>
+        <input type="text" class="form-control" name="meetingName" id="meetingName" >
+    </div>
+
+    {{!<div class="form-group">
+        <label for="meetingImg"> Meeting Image </label>
+        <input type="file" class="form-control" name="meetingImg" id="meetingImg">
+    </div>}}
+
+    <div class="form-group">
+        <label for="meetingDescription"> Meeting Description </label>
+        <input type="text" class="form-control" name="meetingDescription" id="meetingDescription">
+    </div>
+
+    <div class="form-group">
+        <label for="meetingLanguage"> Meeting Language </label>
+        <input type="text" class="form-control" name="meetingLanguage" id="meetingLanguage">
+    </div>
+
+    <div class="form-group">
+        <label for="meetingDate"> Meeting date </label>
+        <input type="datetime-local" class="form-control" name="meetingDate" id="meetingDate">
+    </div>
+
+    <div class="form-group">
+        <label for="meetingPoint"> Meeting Point </label>
+        <input type="text" class="form-control" name="meetingPoint" id="meetingPoint">
+    </div>
+
+    {{!<div class="form-group">
+        <label for="meetingOrganizer"> Meeting Organizer </label>
+        <input type="text" class="form-control" name="meetingOrganizer" id="meetingOrganizer">
+    </div>}}
+
+    {{!<div class="form-group">
+        <label for="meetingParticipants"> Meeting Participants </label>
+        <input type="text" class="form-control" name="meetingParticipants" id="meetingParticipants">
+    </div>}}
+
+    <button class="btn btn-primary"> Create New Meeting </button> {{!Agregar enlace}}
+    
+</form>
