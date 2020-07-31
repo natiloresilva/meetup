@@ -2,6 +2,7 @@ const express = require('express');
 const meetingRouter = express.Router();
 
 const Meeting = require('./../models/meeting');
+const Comments = require('./../models/comments');
 const { Router } = require('express');
 
 //              >> PAGINA PRINCIPAL MEETINGS (GET)

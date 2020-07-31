@@ -9,7 +9,8 @@ const meetingSchema = new Schema({
     meetingDate: { type: String, required: true },
     meetingPoint: { type: String, required: true },
     meetingOrganizer: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, 
-    meetingParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
+    meetingParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    commentArray: [{ type: Schema.Types.ObjectId, ref: 'comments'  }]
  });
 
 meetingSchema.set('timestamps', true);

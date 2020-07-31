@@ -6,14 +6,27 @@ const { Router } = require('express');
 
 const parser = require('./../config/cloudinary');
 
-//              >> PAGINA PROFILE (GET & POST)
+//              >> PAGINA PROFILE (GET)
+//GET 
+//nos renderiza la pagina en donde se vera el perfil.
+profileRouter.get('/:id/profile', (req, res, next) => {
+    User.find()
+    .then( (profile) => {
+        res.render('user/profile', profile);
+    })
+    .catch( (error) => {
+        console.log('Error while showing the profile ', error);
+    })
+})
+
+//              >> PAGINA PROFILE (GET & PATCH)
 //GET 
 //nos renderiza la pagina en donde se encontraran los campos para editar.
 profileRouter.get('/:id/editProfile', (req, res, next) => {
     User.findById(req.params.id)
     .then( (editProfile) => {
         console.log(editProfile)
-        res.json({editProfile});
+        res.render('user/editUser', editProfile);
     })
     .catch( (error) => {
         console.log('Error while showing the profile ', error);
@@ -29,7 +42,7 @@ profileRouter.patch('/:id/editProfile', parser.single('profilepic'), (req, res, 
     User.update( {_id:req.params.id}, { name, address, biography, profileImage:image_url, languagesISpeak, iWantToLearn } )
     .then( (editProfile) => {
         console.log(editProfile)
-        res.json({editProfile});
+        res.render('user/profile', editProfile);
     })
     .catch( (error) => {
         console.log('Error while editing the profile ', error);
