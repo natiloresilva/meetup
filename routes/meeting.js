@@ -18,6 +18,19 @@ meetingRouter.get('/meetings', (req, res, next) => {
     })
 });
 
+//              >> BUSQUEDA POR CIUDAD. PAGINA PRINCIPAL MEETINGS (POST)
+//POST
+//toma los datos que se encuentran en el formulario de la pagina 'MEETINGS' para filtrar busqueda por ciudad.
+meetingRouter.post('/meetings/search', (req, res, next) => {
+    Meeting.findOne( {city: req.query.city} )
+    .then( (meetings) => {
+        res.render('meetings/meetings', meetings);
+    })
+    .catch( (error) => {
+        console.log('Error while searching the meetings from the DB ', error);
+    })
+})
+
 //              >> PAGINA CREATE A NEW MEETING (GET & POST)
 //GET
 //nos renderiza la pagina donde se encontrará el formulario para CREAR NUEVO meeting.

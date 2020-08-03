@@ -10,7 +10,8 @@ const userSchema = new Schema({
         country: { tyoe: String }
           }, 
   biography: { type: String }, 
-  profileImage: { type: String }, 
+  profileImage: { type: String,
+                default: '../images/default-profile-picture.png' }, 
   languagesISpeak: { type: String },
   iWantToLearn: { type: String },
   myPendingMeetings: [{ type: mongoose.Schema.Types.ObjectId, ref: "meetingSchema"}],
