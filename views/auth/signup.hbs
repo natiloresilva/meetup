@@ -1,35 +1,39 @@
-<h2> Sign Up </h2>
 
-{{#if errorMessage}}
-<p class="error-message">
-    {{ errorMessage }}
-</p>
-{{/if}}
+<div class="container-signup">
+    <h2 class="title-signup"> Sign Up </h2>
 
-<form action="/auth/signup" method="post">
-    <div class="form-group">
-        <label for="name-input"> Name </label>
-        <input type="text"  class="form-control" name="name" id="name-input" placeholder="e.g., ironhacker">
-    </div>
+    {{#if errorMessage}}
+    <p class="error-message">
+        {{ errorMessage }}
+    </p>
+    {{/if}}
 
-    <div class="form-group">
-        <label for="email-input"> Email </label>
-        <input type="email" class="form-control" name="email" id="email-input" placeholder="e.g., ironhack@ironhack.com">
-    </div>
+    <form action="/auth/signup" method="post">
+        <div class="form-group">
+            <label for="name-input"> Name </label>
+            <input type="text"  class="form-control" name="name" id="name-input" placeholder="ironhacker">
+        </div>
 
-    <div class="form-group">
-        <label for="password-input"> Password </label>
-        <input type="password" class="form-control" name="password" id="password-input" placeholder="e.g., ••••••••••••">
-    </div>
+        <div class="form-group">
+            <label for="email-input"> Email </label>
+            <input type="email" class="form-control" name="email" id="email-input" placeholder="ironhack@ironhack.com">
+        </div>
 
-    <button class="btn btn-primary"> Create New Account </button>
+        <div class="form-group">
+            <label for="password-input"> Password </label>
+            <input type="password" class="form-control" name="password" id="password-input" placeholder="••••••••••••">
+        </div>
 
-</form>
+        <button class="btn btn-primary"> Create New Account </button>
 
-<p>
-    Already have an account?
-    
-    <a href="/auth/login">
-        Log in.
-    </a>
-</p>
+    </form>
+
+    <p>
+        Already have an account?
+        
+        <a href="/auth/login">
+            Log in.
+        </a>
+    </p>
+
+</div>

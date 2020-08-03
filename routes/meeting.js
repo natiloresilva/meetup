@@ -10,8 +10,10 @@ const { Router } = require('express');
 //nos renderiza la pagina 'MEETINGS' con todos los meetings que hay disponibles. 
 meetingRouter.get('/meetings', (req, res, next) => {
     Meeting.find()
-    .then( (meetings) => {
-        res.render('meetings/meetings', meetings);
+    .then((meetings) => {
+        console.log(meetings);
+        
+        res.render('meeting/meetings', meetings);
     })
     .catch( (error) => {
         console.log('Error while listing the meetings from the DB ', error);
@@ -41,12 +43,24 @@ meetingRouter.get('/createMeeting', (req, res, next) => {
 //POST
 //toma los datos que se encuentran en el formulario de la pagina 'CREATE MEETING'.
 meetingRouter.post('/createMeeting', (req, res, next) => {
-    const { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingOrganizer } = req.body;
-    const newMeeting = new meeting({ meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingOrganizer })
-    newMeeting.save()
+    const { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint } = req.body;
+
+    console.log(req.session.currentUser);
+    
+
+    const newMeeting = { 
+        meetingName, 
+        meetingDescription, 
+        meetingLanguage, 
+        meetingDate, 
+        meetingPoint, 
+        meetingOrganizer: req.session.currentUser._id
+    };
+
+    Meeting.create(newMeeting)
     .then( (newMeet) => {
         console.log('A new meeting was created ', newMeet);
-        res.redirect('/meet/myPendingMeetings', newMeet);
+        res.redirect('/meet/meetings');
     })
     .catch( (error) => {
         console.log('Error while adding a new meeting to the DB ', error);

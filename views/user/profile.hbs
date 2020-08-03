@@ -1,0 +1,50 @@
+<div class="container-profile">
+    <div class="jumbotron pb-0 pt-0">
+        <h1 class="font-weight-bold">My profile</h1>
+    </div>
+
+
+    <div class="name-user">
+        <h3>{{currentUserInfo.name}}</h3>
+    </div>
+
+    <div class="image-profile">
+        {{#if currentUserInfo.profileImage}}
+                <img class="" src="{{currentUserInfo.profileImage}}" alt="Profile picture">
+            {{^}}
+                <img class="" src="./images/default-profile.picture.png" alt="Profile picture">   
+        {{/if}}
+    </div>
+
+    <div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><span class="font-weight-bold">Your Email is:</span> {{currentUserInfo.email}}
+        
+            <li class="list-group-item">
+                <span class="font-weight-bold">Adress:</span> {{currentUserInfo.city}} {{currentUserInfo.country}}
+            </li>
+
+            <li class="list-group-item">
+                <span class="font-weight-bold">About me</span> {{currentUserInfo.biography}}
+            </li>
+
+            <li class="list-group-item">
+                <span class="font-weight-bold">I speak:</span> {{currentUserInfo.languagesISpeak}}
+            </li>
+
+            <li class="list-group-item">
+                <span class="font-weight-bold">Languages ​​I want to improve:</span> {{currentUserInfo.iWantToLearn}}
+            </li>
+
+            <li class="list-group-item">
+                <span class="font-weight-bold">My pending meetings:</span> {{currentUserInfo.myPendingMeetings}}
+            </li>
+
+            <li class="list-group-item">
+                <span class="font-weight-bold">Meetings organized by me:</span> {{currentUserInfo.myOrganizedMeetings}}
+            </li>
+        </ul>
+
+        <a type="button" class="btn btn-primary float-right" href='/profile/{{currentUserInfo._id}}/editProfile'>Edit profile</a>
+    </div>
+</div>

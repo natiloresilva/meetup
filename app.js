@@ -57,7 +57,7 @@ app.use(session({
   secret: 'learn and practice a new language',
   resave: true,
   saveUninitialized: true,
-  cookie: { maxAge: 60000 },
+  cookie: { maxAge: 600000 },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     ttl: 24 * 60 * 60 // 1 day
@@ -84,7 +84,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/meet', meetingRouter);
-app.use('/profile', profileRouter);
+app.use('/profile/', profileRouter);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {

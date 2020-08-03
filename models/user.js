@@ -5,13 +5,10 @@ const userSchema = new Schema({
   name: { type: String, required: true }, 
   email: { type: String, required: true }, 
   password: { type: String, required: true},
-  address: { 
-        city: { type: String },
-        country: { type: String }
-          }, 
+  city: { type: String },
+  country: { type: String },
   biography: { type: String }, 
-  profileImage: { type: String,
-                default: '../images/default-profile-picture.png' }, 
+  profileImage: { type: String }, 
   languagesISpeak: { type: String },
   iWantToLearn: { type: String },
   myPendingMeetings: [{ type: mongoose.Schema.Types.ObjectId, ref: "meetingSchema"}],

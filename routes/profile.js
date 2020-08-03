@@ -9,14 +9,8 @@ const parser = require('./../config/cloudinary');
 //              >> PAGINA PROFILE (GET)
 //GET 
 //nos renderiza la pagina en donde se vera el perfil.
-profileRouter.get('/:id/profile', (req, res, next) => {
-    User.find()
-    .then( (profile) => {
-        res.render('user/profile', profile);
-    })
-    .catch( (error) => {
-        console.log('Error while showing the profile ', error);
-    })
+profileRouter.get('/', (req, res, next) => { 
+    res.render('user/profile');
 })
 
 //              >> PAGINA PROFILE (GET & PATCH)
@@ -26,7 +20,7 @@ profileRouter.get('/:id/editProfile', (req, res, next) => {
     User.findById(req.params.id)
     .then( (editProfile) => {
         console.log(editProfile)
-        res.render('user/editUser', editProfile);
+        res.render('user/editProfile', editProfile);
     })
     .catch( (error) => {
         console.log('Error while showing the profile ', error);
@@ -47,7 +41,39 @@ profileRouter.patch('/:id/editProfile', parser.single('profilepic'), (req, res, 
     .catch( (error) => {
         console.log('Error while editing the profile ', error);
     })
-})
+});
+
+//POST - Se realiza este metodo para mandar datos desde un form 
+profileRouter.post("/:id/editProfile", parser.single("profileImage"), (req, res, next) => {
+  let previousUserImg;
+
+  User.findById(req.params.id)
+    .then(theUserProfile => {
+      previousUserImg = theUserProfile.profileImage;
+      const imgUserUrl = req.file ? req.file.secure_url : previousUserImg;
+
+      const { name, city, country, biography, languagesISpeak, iWantToLearn } = req.body;
+      
+      const updatedUser = {
+        name,
+        city,
+        country,
+        biography,
+        languagesISpeak,
+        iWantToLearn,
+        profileImg: imgUserUrl
+      };
+
+      User.update({ _id: req.params.id }, updatedUser)
+        .then(() => User.findById(req.params.id))
+        .then(updatedUser => {
+          req.session.currentUser = updatedUser;
+          res.redirect(`/profile/`);
+        })
+        .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
+});
 
 
 module.exports = profileRouter;

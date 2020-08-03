@@ -1,0 +1,25 @@
+<div class="container-meetings">
+    <div class="header-meetings">
+        <div class="buttons-meetings">
+            <a href="/meet/myPendingMeetings" class="btn btn-outline-primary">My Meetings</a>
+            <a href="/meet/createMeeting" class="btn btn-outline-primary">Create a new meeting</a>
+        </div>
+        <div class="search-meeting">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control input-meetings mr-sm-2" type="search" placeholder="Search meetings..." aria-label="Search">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
+        </div>  
+    </div>
+    <p>
+        hola
+    </p>
+    <div class="container-items-meetings">
+        <p>
+            test
+        </p>
+        {{#each meetings}}
+            {{> meeting this}}
+        {{/each}}
+    </div>
+</div>
