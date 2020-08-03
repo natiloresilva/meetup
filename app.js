@@ -18,7 +18,7 @@ const MongoStore = require('connect-mongo')(session);
 
 //para conectarnos en nuestra base de datos 'meetup'
 mongoose
-  .connect('mongodb://localhost/meetup', {
+  .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   })

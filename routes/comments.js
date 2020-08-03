@@ -5,7 +5,9 @@ const Meeting = require('./../models/meeting');
 const Comments = require('./../models/comments');
 const { Router } = require('express');
 
+//              >> PAGINA MEETING DETAILS (POST)
 //POST
+//toma los datos que se encuentran en el formulario de la pagina 'MEETING DETAILS' y guarda un comentario.
 commentRouter.post('/:id/comment', (req, res, next) => {
     const { comment } = req.body;
     const user = req.session.currentUser;
