@@ -10,6 +10,7 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const favicon = require('serve-favicon');
 const hbs = require('hbs');
+hbs.registerPartials(__dirname + "/views/partials");
 const mongoose = require('mongoose');
 
 //requerimos los modulos 'express-sesion' y 'connect-mongo

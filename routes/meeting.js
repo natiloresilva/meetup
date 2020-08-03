@@ -13,7 +13,9 @@ meetingRouter.get('/meetings', (req, res, next) => {
     .then((meetings) => {
         console.log(meetings);
         
-        res.render('meeting/meetings', meetings);
+        res.render('meeting/meetings', {
+            meetings: meetings
+        });
     })
     .catch( (error) => {
         console.log('Error while listing the meetings from the DB ', error);

@@ -118,6 +118,13 @@ body {
   width: 350px!important;  
 }
 
+.container-items-meetings {
+  margin-top: 50px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 @media (min-width: 720px) {
   .faq {
     margin-left: 10%;

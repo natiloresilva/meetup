@@ -44,7 +44,7 @@ profileRouter.patch('/:id/editProfile', parser.single('profilepic'), (req, res, 
 });
 
 //POST - Se realiza este metodo para mandar datos desde un form 
-profileRouter.post("/:id/editProfile", parser.single("profileImage"), (req, res, next) => {
+profileRouter.post("/:id/editProfile", parser.single("profilepic"), (req, res, next) => {
   let previousUserImg;
 
   User.findById(req.params.id)
