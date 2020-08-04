@@ -1,0 +1,48 @@
+<div class="container-edit-profile">
+    <h1>Edit your meeting</h1>
+
+    <form action='/profile/{{currentUserInfo._id}}/editProfile' method='POST' enctype="multipart/form-data">
+
+        <div class="form-group font-weight-bold">
+            <label for='meetingName'>Name</label>
+            <input class="form-control" type='text' name='meetingName' value='{{this.meetingName}}'>
+        </div>
+
+        <div class="form-group font-weight-bold">
+            <label for='meetingDescription'>Meeting Description</label>
+            <input class="form-control" type='text' name='meetingDescription' value='{{this.meetingDescription}}'>
+        </div>
+
+        <div class="form-group font-weight-bold">
+            <label for='meetingLanguage'>Meeting Language</label>
+            <input class="form-control" type='text' name='meetingLanguage' value='{{this.meetingLanguage}}'>
+        </div>
+
+        <div class="form-group font-weight-bold">
+            <label for='meetingDate'>Meeting date</label>
+            <input class="form-control" type='text' name='meetingDate' value='{{this.meetingDate}}'>
+        </div>
+
+        <div class="form-group">
+            <label for="meetingDate"> Meeting date </label>
+            <input type="datetime-local" class="form-control" name="meetingDate" id="meetingDate">
+        </div>
+
+
+
+
+
+
+        <div class="form-group font-weight-bold">
+            <label for='profileImage'>Image</label>
+            {{#if currentUserInfo.profileImage}}
+            <img class="card-img-top" src="{{currentUserInfo.profileImage}}" alt="profileImage">
+            {{^}}
+            <img class="card-img-top" src="./images/default-profile.picture.png" alt="profileImage">
+            {{/if}}
+            <input class="form-control" type='file' name='profilepic' value='{{currentUserInfo.profileImage}}'>
+        </div>
+        <a class="btn btn-outline-danger" type='button' href="/profile">Back</a>
+        <button class="btn btn-primary float-right" type='submit'>Save changes</button>
+    </form>
+</div>

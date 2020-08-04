@@ -37,6 +37,9 @@ const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const meetingRouter = require('./routes/meeting');
 const profileRouter = require('./routes/profile');
+const commentsRouter = require('./routes/comments');
+
+
 
 
 //ejecutamos express.
@@ -86,6 +89,7 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/meet', meetingRouter);
 app.use('/profile/', profileRouter);
+app.use('/comments', commentsRouter);
 
 //catch 404 and forward to error handler
 app.use(function(req, res, next) {

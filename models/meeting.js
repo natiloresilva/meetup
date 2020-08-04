@@ -11,7 +11,7 @@ const meetingSchema = new Schema({
     meetingCity: { type: String, required: true },
     meetingOrganizer: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, 
     meetingParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    commentArray: [{ type: Schema.Types.ObjectId, ref: 'comments'  }]
+    commentArray: [{ type: Schema.Types.ObjectId, ref: 'Comment'  }]
  });
 
 meetingSchema.set('timestamps', true);

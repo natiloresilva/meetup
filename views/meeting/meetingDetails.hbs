@@ -8,13 +8,29 @@
         <h5 class="card-title">{{theMeeting.meetingName}}</h5>
         <p class="card-text">{{theMeeting.meetingDescription}}</p>
         <p class="card-text">{{theMeeting.meetingDate}}</p>
+        <p class="card-text">{{theMeeting.meetingPoint}}</p>
+        <p class="card-text">{{theMeeting.meetingCity}}</p>
         <p class="card-text">{{theMeeting.meetingParticipants}}</p>
-        <p class="card-text">{{theMeeting.commentArray}}</p>
         <a class="btn btn-outline-danger" type='button' href="/meet/meetings">Back</a>
         {{#if isOrganizer}}
         <p>This is your meeting!</p>
         {{^}}
         <button class="btn btn-primary float-right" type='submit'>Join this meeting!</button>
         {{/if}}
+
+
+
+
+        <form method="POST" action="/comments/{{theMeeting._id}}/comment">
+            <textarea name="comment" placeholder="Enter your commetn here"></textarea>
+            <button class="btn btn-primary btn-search-meeting" type="submit">Submit</button>
+        </form>
+
+        {{#each comment}}
+        <div>
+            <p class="card-text">{{theMeeting.commentArray.comment}}</p>
+        </div>
+        {{/each}}
+
     </div>
 </div>

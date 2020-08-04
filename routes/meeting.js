@@ -79,7 +79,8 @@ meetingRouter.post('/createMeeting', (req, res, next) => {
 //              >> PAGINA MY PENDING MEETINGS (GET)
 //GET
 meetingRouter.get('/myPendingMeetings', (req, res, next) => {
-    Meeting.find()
+    Meeting.find( {meetingOrganizer: req.session.currentUser._id} )
+    console.log(meetingOrganizer)
     .then ( (myMeetings) => {
         res.render('meeting/myPendingMeetings', myMeetings);
     })
