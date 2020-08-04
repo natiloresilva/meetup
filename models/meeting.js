@@ -8,6 +8,7 @@ const meetingSchema = new Schema({
     meetingLanguage: { type: String, required: true },
     meetingDate: { type: String, required: true },
     meetingPoint: { type: String, required: true },
+    meetingCity: { type: String, required: true },
     meetingOrganizer: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, 
     meetingParticipants: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
     commentArray: [{ type: Schema.Types.ObjectId, ref: 'comments'  }]

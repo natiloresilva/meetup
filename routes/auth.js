@@ -80,7 +80,7 @@ authRouter.post('/login', async (req, res, next) => {
             return;
         }
         req.session.currentUser = findUser;
-        res.redirect('/profile');
+        res.redirect('/meet/meetings');
     }
     catch (error) {
         res.render('auth/login', { errorMessage: 'error' } );

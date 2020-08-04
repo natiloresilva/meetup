@@ -25,10 +25,14 @@ meetingRouter.get('/meetings', (req, res, next) => {
 //              >> BUSQUEDA POR CIUDAD. PAGINA PRINCIPAL MEETINGS (POST)
 //POST
 //toma los datos que se encuentran en el formulario de la pagina 'MEETINGS' para filtrar busqueda por ciudad.
-meetingRouter.post('/meetings/search', (req, res, next) => {
-    Meeting.findOne( {city: req.query.city} )
+meetingRouter.get('/meetings/search', (req, res, next) => {
+    console.log(req.query.meetingCity)
+    //let meetingCity = req.query.meetingCity.charAt(0).toUpperCase() + req.query.meetingCity.slice(1).toLowerCase();
+   // Meeting.find( {meetingCity: meetingCity} )
+   Meeting.find({ "meetingCity" : { $regex : new RegExp(req.query.meetingCity, "i") } })
     .then( (meetings) => {
-        res.render('meetings/meetings', meetings);
+        console.log(meetings)
+        res.render('meeting/meetings', {meetings});
     })
     .catch( (error) => {
         console.log('Error while searching the meetings from the DB ', error);
@@ -45,7 +49,7 @@ meetingRouter.get('/createMeeting', (req, res, next) => {
 //POST
 //toma los datos que se encuentran en el formulario de la pagina 'CREATE MEETING'.
 meetingRouter.post('/createMeeting', (req, res, next) => {
-    const { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint } = req.body;
+    const { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingCity } = req.body;
 
     console.log(req.session.currentUser);
     
@@ -56,6 +60,7 @@ meetingRouter.post('/createMeeting', (req, res, next) => {
         meetingLanguage, 
         meetingDate, 
         meetingPoint, 
+        meetingCity,
         meetingOrganizer: req.session.currentUser._id
     };
 
@@ -129,7 +134,7 @@ meetingRouter.patch('/:id/edit', (req, res, next) => {
 //              >> PAGINA MEETING DETAILS (GET)
 //GET
 //nos renderiza un evento en especifico que buscamos con el id.
-meetingRouter.get('/:id', (req, res, next) => {
+meetingRouter.get('/meetings/:id', (req, res, next) => {
     Meeting.findById(req.params.id)
     .then( (theMeeting) => {
         console.log(theMeeting)

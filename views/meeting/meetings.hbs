@@ -5,8 +5,8 @@
             <a href="/meet/createMeeting" class="btn btn-outline-primary">Create a new meeting</a>
         </div>
         <div class="search-meeting">
-            <form class="form-inline form-search-meeting">
-                <input class="form-control input-meetings" type="search" placeholder="Search meetings..." aria-label="Search">
+            <form class="form-inline form-search-meeting" method="GET" action="/meet/meetings/search">
+                <input class="form-control input-meetings" type="search" placeholder="Search meetings..." aria-label="Search" name="meetingCity">
                 <button class="btn btn-primary btn-search-meeting" type="submit">Search</button>
             </form>
         </div>  
