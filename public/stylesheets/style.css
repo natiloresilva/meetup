@@ -123,7 +123,7 @@ body {
 .header-meetings{
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
   flex-wrap: wrap;
 }
 
@@ -141,6 +141,12 @@ body {
 .card-meeting {
   width: 100%;
 }
+
+ .meeting-detail {
+   margin-left: 30%;
+   
+ }
+
 
 @media (min-width: 720px) {
   .faq {
@@ -217,4 +223,6 @@ body {
   .search-meeting {
     width: auto !important;
   }
+
+
 }

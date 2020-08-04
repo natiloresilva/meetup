@@ -133,7 +133,9 @@ meetingRouter.get('/:id', (req, res, next) => {
     Meeting.findById(req.params.id)
     .then( (theMeeting) => {
         console.log(theMeeting)
-        res.render('meeting/meetingDetails', theMeeting)
+        const isOrganizer = req.session.currentUser._id == theMeeting.meetingOrganizer;
+        console.log(isOrganizer);
+        res.render('meeting/meetingDetails', {theMeeting, isOrganizer})
     })
 })
 

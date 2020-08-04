@@ -39,7 +39,8 @@ authRouter.post('/signup', async (req, res, next) => {
 
     // guardar el usuario en la BDD
     await User.create({ name, email, password: hashedPassword })
-    res.redirect('/login');
+    res.render('auth/login');
+    
   } 
   catch (error) {
     res.render('auth/signup', { errorMessage: "Error while creating account. Please try again."})

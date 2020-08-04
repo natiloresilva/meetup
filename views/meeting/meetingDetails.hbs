@@ -1,0 +1,20 @@
+<div class="card card-meeting meeting-detail">
+    {{#if this.meetingImg}}
+    <img class="card-img-top" src="{{this.meetingImg}}" alt="Meeting picture">
+    {{^}}
+    <img src="../../images/bar.jpg" class="card-img-top" alt="bar">
+    {{/if}}
+    <div class="card-body">
+        <h5 class="card-title">{{theMeeting.meetingName}}</h5>
+        <p class="card-text">{{theMeeting.meetingDescription}}</p>
+        <p class="card-text">{{theMeeting.meetingDate}}</p>
+        <p class="card-text">{{theMeeting.meetingParticipants}}</p>
+        <p class="card-text">{{theMeeting.commentArray}}</p>
+        <a class="btn btn-outline-danger" type='button' href="/meet/meetings">Back</a>
+        {{#if isOrganizer}}
+        <p>This is your meeting!</p>
+        {{^}}
+        <button class="btn btn-primary float-right" type='submit'>Join this meeting!</button>
+        {{/if}}
+    </div>
+</div>
