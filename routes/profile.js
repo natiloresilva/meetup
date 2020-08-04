@@ -53,7 +53,6 @@ profileRouter.post("/:id/editProfile", parser.single("profilepic"), (req, res, n
       const imgUserUrl = req.file ? req.file.secure_url : previousUserImg;
 
       const { name, city, country, biography, languagesISpeak, iWantToLearn } = req.body;
-      
       const updatedUser = {
         name,
         city,
@@ -61,8 +60,9 @@ profileRouter.post("/:id/editProfile", parser.single("profilepic"), (req, res, n
         biography,
         languagesISpeak,
         iWantToLearn,
-        profileImg: imgUserUrl
+        profileImage: imgUserUrl
       };
+    
 
       User.update({ _id: req.params.id }, updatedUser)
         .then(() => User.findById(req.params.id))
