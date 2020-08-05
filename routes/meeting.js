@@ -199,4 +199,72 @@ meetingRouter.post('/meetings/:id', (req, res) => {
         .catch(err => console.log(err));
 });
 
+
+//                              >> DES- SUBSCRIBIRSE A UNA MEETING (POST)
+//POST - BOTÓN ====> CANT GO!
+//se borra al usuario de la meeting, sacando su ID del campo "meetingParticipants".
+meetingRouter.post('/meetings/:id/remove', async (req, res) => {
+        const result = await Meeting.findByIdAndUpdate(req.params.id, {
+            $pull: {
+                meetingParticipants: req.session.currentUser._id
+            }
+        }, {
+            new: true
+        });
+
+        // se elimina la meeting de las meetingPending del usuario.
+
+        const userResult = await User.findByIdAndUpdate(req.session.currentUser._id, {
+            $pull: {
+                 myPendingMeetings: req.params.id
+        }
+        }, {
+            new: true
+        });
+        req.session.currentUser = userResult;
+        res.redirect('/meet/myPendingMeetings')
+
+})
+           /* Meeting.findById(req.params.id)
+                .then((theMeeting) => {
+                        // agrego al usuario a la meeting
+                        let {
+                            meetingParticipants
+                        } = theMeeting;
+                        meetingParticipants.findOneAndDelete(req.session.currentUser._id);
+                        const updateMeeting = {
+                            meetingParticipants
+                        };
+                        
+                        //Se actualiza la meeting
+
+                        Meeting.update({
+                                _id: req.params.id
+                            }, updateMeeting)
+                            .then(() => {
+                                // se elimina la meeting de las meetingPending del usuario.
+                                User.findById(req.session.currentUser._id)
+                                    .then((user) => {
+                                        let {
+                                            myPendingMeetings
+                                        } = user;
+                                        myPendingMeetings.findOneAndDelete(req.params.id);
+                                        const deleteMeetingToUser = {
+                                            myPendingMeetings
+                                        }
+                                        User.update({
+                                                _id: req.session.currentUser._id
+                                            }, deleteMeetingToUser)
+                                            .then(() => {
+                                                res.redirect(`/meet/meetings`);
+                                            });
+                                    })
+                            })
+                            .catch(err => console.log(err));
+                        })
+                        .catch(err => console.log(err));
+                        }); */
+
+
+
 module.exports = meetingRouter;

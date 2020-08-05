@@ -9,9 +9,11 @@
         <p class="card-text">{{this.meetingLanguage}}</p>
         <p class="card-text">{{this.meetingCity}}</p>
         {{#if isOrganizer}}
-            <p>hola</p>
+            <a href="/meet/meetings/{{this._id}}/editMeeting" class="btn btn-primary">Edit meeting</a>
         {{^}}
-            <p>chau</p>
+            <form class="" method="POST" action="/meet/meetings/{{this._id}}/remove">
+                <button class="btn btn-primary float-right" type='submit'>Can't go</button>
+            </form>
         {{/if}}
         <a href="/meet/meetings/{{this._id}}" class="btn btn-primary">More Details!</a>
     </div>
