@@ -15,8 +15,8 @@
         {{/each}}
         {{#if isOrganizer}}
             <p>You are subscribed to this meeting!</p>
-        {{^}}
-            <form class="" method="POST" action="/meet/meetings/{{theMeeting._id}}">
+        {{else}}
+            <form class="" method="POST" action="/meet/meetings/{{theMeeting._id}}/add">
                 <button class="btn btn-primary float-right" type='submit'>Join this meeting!</button>
             </form>
         {{/if}}

@@ -91,13 +91,37 @@ meetingRouter.post('/createMeeting', (req, res) => {
 });
 
 //              >> PAGINA MY PENDING MEETINGS (GET)
-//GET
+//GET 
+/*
+meetingRouter.get('/myPendingMeetings', (req, res, next) => {
+    User.findById(req.session.currentUser._id)
+        .then((myMeetings) => {
+            res.render('meeting/myPendingMeetings', myMeetings);
+        })
+        .catch((error) => {
+            console.log('Error while listing my pending meetings from the DB ', error);
+        })
+}); */
+
 meetingRouter.get('/myPendingMeetings', (req, res) => {
     User.findById(req.session.currentUser._id)
     .populate('myPendingMeetings')
-    .then ((user) => {
+    .then (async (user) => {
+        let newArray = await Promise.all (user.myPendingMeetings.map(obj => {
+
+            //console.log(obj.meetingOrganizer)
+            //console.log(req.session.currentUser._id)
+
+
+            if (JSON.stringify(obj.meetingOrganizer).includes(req.session.currentUser._id)) {
+                return { ...obj, isOrganizer: true }
+            } else {
+                return { ...obj }
+            }
+        })) 
+        console.log(newArray)
         res.render('meeting/myPendingMeetings', {
-            myMeetings: user.myPendingMeetings
+            myMeetings: newArray
         });
     })
     .catch( (error) => {
@@ -123,7 +147,7 @@ meetingRouter.post('/:id/delete', (req, res) => {
 //              >> PAGINA EDIT MEETING (GET & POST)
 //GET 
 //nos renderiza la pagina en donde se encontraran los campos par editar.
-meetingRouter.get('/:id/editMeeting', (req, res) => {
+meetingRouter.get('/meetings/:id/editMeeting', (req, res) => {
     Meeting.findById(req.params.id)
     .then( (editMeeting) => {
         console.log(editMeeting)
@@ -136,7 +160,8 @@ meetingRouter.get('/:id/editMeeting', (req, res) => {
 
 //PATCH
 //toma los datos que se encuentran en el formulario de la pagina 'EDIT MEETING'.
-meetingRouter.patch('/:id/edit', (req, res) => {
+
+ /*meetingRouter.post('/:id/editMeeting', (req, res) => {
     const { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingOrganizer } = req.body;
     Meeting.update( {_id:req.params.id}, { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingOrganizer } )
     .then( (editMeeting) => {
@@ -146,7 +171,44 @@ meetingRouter.patch('/:id/edit', (req, res) => {
     .catch( (error) => {
         console.log('Error while editing the meeting info ', error);
     })
-})
+})*/
+
+//POST - Se realiza este metodo para mandar datos desde un form 
+meetingRouter.post("/:id/editMeeting", (req, res, next) => {
+    Meeting.findById(req.params.id)
+        .then(editMeeting => {
+
+            const {
+                meetingName,
+                meetingDescription,
+                meetingLanguage,
+                meetingDate,
+                meetingPoint,
+                meetingOrganizer
+            } = req.body;
+            const updatedMeeting = {
+                meetingName, 
+                meetingDescription,
+                meetingLanguage,
+                meetingDate,
+                meetingPoint, 
+                meetingOrganizer
+            };
+
+
+            Meeting.update({
+                    _id: req.params.id
+                }, updatedMeeting)
+                .then(() => Meeting.findById(req.params.id))
+                .then(updatedMeeting => {
+                   req.params.id = updatedMeeting;
+                    res.redirect(`meeting/myPendingMeetings`);
+                })
+                .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
+});
+
 
 //              >> PAGINA MEETING DETAILS (GET)
 //GET
@@ -162,9 +224,9 @@ meetingRouter.get('/meetings/:id', (req, res) => {
 });
 
 //              >> SUBSCRIBIRSE A UNA MEETING (POST)
-//POST
+//POST -UTILIZANDO JAVASCRIPT
 //se registrara al usuario en la meeting agregandolo al campo "meetingParticipants"
-meetingRouter.post('/meetings/:id', (req, res) => {
+/*meetingRouter.post('/meetings/:id', (req, res) => {
     Meeting.findById(req.params.id)
         .then((theMeeting) => {
             // agrego al usuario a la meeting
@@ -197,11 +259,36 @@ meetingRouter.post('/meetings/:id', (req, res) => {
             .catch(err => console.log(err));
         })  
         .catch(err => console.log(err));
-});
+}); */
 
+//                              >> SUBSCRIBIRSE A UNA MEETING(POST)
+//POST - BOTÓN ====> JOIN THIS MEETING! Utilizando métodos de mongoose y asyc await
+//se registrara al usuario en la meeting agregandolo al campo "meetingParticipants"
+meetingRouter.post('/meetings/:id/add', async (req, res) => {
+    const resultAdd = await Meeting.findByIdAndUpdate(req.params.id, {
+        $addToSet: {
+            meetingParticipants: req.session.currentUser._id
+        }
+    }, {
+        new: true
+    });
+
+    // se elimina la meeting de las meetingPending del usuario.
+
+    const userResultAdd = await User.findByIdAndUpdate(req.session.currentUser._id, {
+        $addToSet: {
+            myPendingMeetings: req.params.id
+        }
+    }, {
+        new: true
+    });
+    req.session.currentUser = userResultAdd;
+    res.redirect('/meet/myPendingMeetings')
+
+})
 
 //                              >> DES- SUBSCRIBIRSE A UNA MEETING (POST)
-//POST - BOTÓN ====> CANT GO!
+//POST - BOTÓN ====> CANT GO! Utilizando métodos de mongoose y asyc await
 //se borra al usuario de la meeting, sacando su ID del campo "meetingParticipants".
 meetingRouter.post('/meetings/:id/remove', async (req, res) => {
         const result = await Meeting.findByIdAndUpdate(req.params.id, {
@@ -225,45 +312,6 @@ meetingRouter.post('/meetings/:id/remove', async (req, res) => {
         res.redirect('/meet/myPendingMeetings')
 
 })
-           /* Meeting.findById(req.params.id)
-                .then((theMeeting) => {
-                        // agrego al usuario a la meeting
-                        let {
-                            meetingParticipants
-                        } = theMeeting;
-                        meetingParticipants.findOneAndDelete(req.session.currentUser._id);
-                        const updateMeeting = {
-                            meetingParticipants
-                        };
-                        
-                        //Se actualiza la meeting
-
-                        Meeting.update({
-                                _id: req.params.id
-                            }, updateMeeting)
-                            .then(() => {
-                                // se elimina la meeting de las meetingPending del usuario.
-                                User.findById(req.session.currentUser._id)
-                                    .then((user) => {
-                                        let {
-                                            myPendingMeetings
-                                        } = user;
-                                        myPendingMeetings.findOneAndDelete(req.params.id);
-                                        const deleteMeetingToUser = {
-                                            myPendingMeetings
-                                        }
-                                        User.update({
-                                                _id: req.session.currentUser._id
-                                            }, deleteMeetingToUser)
-                                            .then(() => {
-                                                res.redirect(`/meet/meetings`);
-                                            });
-                                    })
-                            })
-                            .catch(err => console.log(err));
-                        })
-                        .catch(err => console.log(err));
-                        }); */
 
 
 
