@@ -2,17 +2,16 @@ const express = require('express');
 const meetingRouter = express.Router();
 
 const Meeting = require('./../models/meeting');
+const User = require('../models/user');
 const Comments = require('./../models/comments');
 const { Router } = require('express');
 
 //              >> PAGINA PRINCIPAL MEETINGS (GET)
 //GET
 //nos renderiza la pagina 'MEETINGS' con todos los meetings que hay disponibles. 
-meetingRouter.get('/meetings', (req, res, next) => {
+meetingRouter.get('/meetings', (req, res) => {
     Meeting.find()
     .then((meetings) => {
-        console.log(meetings);
-        
         res.render('meeting/meetings', {
             meetings: meetings
         });
@@ -25,7 +24,7 @@ meetingRouter.get('/meetings', (req, res, next) => {
 //              >> BUSQUEDA POR CIUDAD. PAGINA PRINCIPAL MEETINGS (POST)
 //POST
 //toma los datos que se encuentran en el formulario de la pagina 'MEETINGS' para filtrar busqueda por ciudad.
-meetingRouter.get('/meetings/search', (req, res, next) => {
+meetingRouter.get('/meetings/search', (req, res) => {
     console.log(req.query.meetingCity)
     //let meetingCity = req.query.meetingCity.charAt(0).toUpperCase() + req.query.meetingCity.slice(1).toLowerCase();
    // Meeting.find( {meetingCity: meetingCity} )
@@ -42,18 +41,19 @@ meetingRouter.get('/meetings/search', (req, res, next) => {
 //              >> PAGINA CREATE A NEW MEETING (GET & POST)
 //GET
 //nos renderiza la pagina donde se encontrará el formulario para CREAR NUEVO meeting.
-meetingRouter.get('/createMeeting', (req, res, next) => {
+meetingRouter.get('/createMeeting', (req, res) => {
     res.render('meeting/createMeeting');
 });
 
 //POST
 //toma los datos que se encuentran en el formulario de la pagina 'CREATE MEETING'.
-meetingRouter.post('/createMeeting', (req, res, next) => {
+meetingRouter.post('/createMeeting', (req, res) => {
     const { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingCity } = req.body;
 
-    console.log(req.session.currentUser);
+    // el creador se agrega a la meeting
+    let meetingParticipants = [];
+    meetingParticipants.push(req.session.currentUser._id);
     
-
     const newMeeting = { 
         meetingName, 
         meetingDescription, 
@@ -61,13 +61,27 @@ meetingRouter.post('/createMeeting', (req, res, next) => {
         meetingDate, 
         meetingPoint, 
         meetingCity,
-        meetingOrganizer: req.session.currentUser._id
+        meetingOrganizer: req.session.currentUser._id,
+        meetingParticipants
     };
 
     Meeting.create(newMeeting)
-    .then( (newMeet) => {
+    .then((newMeet) => {
         console.log('A new meeting was created ', newMeet);
-        res.redirect('/meet/meetings');
+
+         // agrego la meeting a la meetingPending del usuario
+        User.findById(req.session.currentUser._id)
+        .then((user) => {
+            let { myPendingMeetings } = user;
+            myPendingMeetings.push(newMeet._id);
+            const addMeetingToUser = {
+                myPendingMeetings
+            }
+            User.update({_id: req.session.currentUser._id}, addMeetingToUser)
+            .then(() => {
+                res.redirect(`/meet/meetings`);
+            });
+        })
     })
     .catch( (error) => {
         console.log('Error while adding a new meeting to the DB ', error);
@@ -78,11 +92,13 @@ meetingRouter.post('/createMeeting', (req, res, next) => {
 
 //              >> PAGINA MY PENDING MEETINGS (GET)
 //GET
-meetingRouter.get('/myPendingMeetings', (req, res, next) => {
-    Meeting.find( {meetingOrganizer: req.session.currentUser._id} )
-    console.log(meetingOrganizer)
-    .then ( (myMeetings) => {
-        res.render('meeting/myPendingMeetings', myMeetings);
+meetingRouter.get('/myPendingMeetings', (req, res) => {
+    User.findById(req.session.currentUser._id)
+    .populate('myPendingMeetings')
+    .then ((user) => {
+        res.render('meeting/myPendingMeetings', {
+            myMeetings: user.myPendingMeetings
+        });
     })
     .catch( (error) => {
         console.log('Error while listing my pending meetings from the DB ', error);
@@ -93,7 +109,7 @@ meetingRouter.get('/myPendingMeetings', (req, res, next) => {
 //POST
 //toma los datos del boton cuando borra un meeting y redirecciona a pagina principal de meetings.
 //              cambiar metodo de post a delete
-meetingRouter.post('/:id/delete', (req, res, next) => {
+meetingRouter.post('/:id/delete', (req, res) => {
     Meeting.findOneAndDelete(req.params.id)
     .then( (deleteMeeting) => {
         res.redirect('meeting/meetings', { deleteMeeting })
@@ -107,7 +123,7 @@ meetingRouter.post('/:id/delete', (req, res, next) => {
 //              >> PAGINA EDIT MEETING (GET & POST)
 //GET 
 //nos renderiza la pagina en donde se encontraran los campos par editar.
-meetingRouter.get('/:id/editMeeting', (req, res, next) => {
+meetingRouter.get('/:id/editMeeting', (req, res) => {
     Meeting.findById(req.params.id)
     .then( (editMeeting) => {
         console.log(editMeeting)
@@ -120,7 +136,7 @@ meetingRouter.get('/:id/editMeeting', (req, res, next) => {
 
 //PATCH
 //toma los datos que se encuentran en el formulario de la pagina 'EDIT MEETING'.
-meetingRouter.patch('/:id/edit', (req, res, next) => {
+meetingRouter.patch('/:id/edit', (req, res) => {
     const { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingOrganizer } = req.body;
     Meeting.update( {_id:req.params.id}, { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingOrganizer } )
     .then( (editMeeting) => {
@@ -135,14 +151,52 @@ meetingRouter.patch('/:id/edit', (req, res, next) => {
 //              >> PAGINA MEETING DETAILS (GET)
 //GET
 //nos renderiza un evento en especifico que buscamos con el id.
-meetingRouter.get('/meetings/:id', (req, res, next) => {
+meetingRouter.get('/meetings/:id', (req, res) => {
     Meeting.findById(req.params.id)
+    .populate('meetingParticipants')
     .then( (theMeeting) => {
-        console.log(theMeeting)
+        console.log(theMeeting);
         const isOrganizer = req.session.currentUser._id == theMeeting.meetingOrganizer;
-        console.log(isOrganizer);
         res.render('meeting/meetingDetails', {theMeeting, isOrganizer})
     })
-})
+});
+
+//              >> SUBSCRIBIRSE A UNA MEETING (POST)
+//POST
+//se registrara al usuario en la meeting agregandolo al campo "meetingParticipants"
+meetingRouter.post('/meetings/:id', (req, res) => {
+    Meeting.findById(req.params.id)
+        .then((theMeeting) => {
+            // agrego al usuario a la meeting
+            let { meetingParticipants } = theMeeting;
+            meetingParticipants.push(req.session.currentUser._id);
+            const updateMeeting = { 
+                meetingParticipants 
+            };
+
+            Meeting.update({_id: req.params.id}, updateMeeting)
+            .then(() => {
+                 // agrego la meeting a la meetingPending del usuario
+                 User.findById(req.session.currentUser._id)
+                     .then((user) => {
+                         let {
+                             myPendingMeetings
+                         } = user;
+                         myPendingMeetings.push(req.params.id);
+                         const addMeetingToUser = {
+                             myPendingMeetings
+                         }
+                         User.update({
+                                 _id: req.session.currentUser._id
+                             }, addMeetingToUser)
+                             .then(() => {
+                                 res.redirect(`/meet/meetings`);
+                             });
+                     })
+            })
+            .catch(err => console.log(err));
+        })  
+        .catch(err => console.log(err));
+});
 
 module.exports = meetingRouter;

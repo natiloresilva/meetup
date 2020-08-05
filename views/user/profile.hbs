@@ -1,8 +1,4 @@
 <div class="container-profile">
-    <div class="jumbotron pb-0 pt-0">
-        <h1 class="font-weight-bold">My profile</h1>
-    </div>
-
 
     <div class="name-user">
         <h3>{{currentUserInfo.name}}</h3>
@@ -16,7 +12,7 @@
         {{/if}}
     </div>
 
-    <div>
+    <div class="container-info-profile">
         <ul class="list-group list-group-flush">
             <li class="list-group-item"><span class="font-weight-bold">Your Email is:</span> {{currentUserInfo.email}}
         
@@ -45,6 +41,6 @@
             </li>
         </ul>
 
-        <a type="button" class="btn btn-primary float-right" href='/profile/{{currentUserInfo._id}}/editProfile'>Edit profile</a>
+        <a type="button" class="btn btn-primary float-right edit-perfil-button" href='/profile/{{currentUserInfo._id}}/editProfile'>Edit profile</a>
     </div>
 </div>

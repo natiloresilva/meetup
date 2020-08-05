@@ -11,8 +11,8 @@ const userSchema = new Schema({
   profileImage: { type: String }, 
   languagesISpeak: { type: String },
   iWantToLearn: { type: String },
-  myPendingMeetings: [{ type: mongoose.Schema.Types.ObjectId, ref: "meetingSchema"}],
-  myOrganizedMeetings: [{  type: mongoose.Schema.Types.ObjectId, ref: "meetingSchema"}]
+  myPendingMeetings: [{ type: mongoose.Schema.Types.ObjectId, ref: "Meeting"}],
+  myOrganizedMeetings: [{  type: mongoose.Schema.Types.ObjectId, ref: "Meeting"}]
 });
 
 userSchema.set('timestamps', true);
