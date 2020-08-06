@@ -18,6 +18,35 @@ body {
 
 /* HOME */
 
+/*BACKGROUND TITLE*/
+#background-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+h2 {
+  background-color: rgba(255, 175, 77, 0.49);
+  transform: skew(11deg, 0deg);
+  font-style: italic;
+}
+
+h5 {
+  background-color: rgba(77, 91, 255, 0.49);
+  transform: skew(11deg, 0deg);
+  font-style: italic;
+}
+
+
+
+.meeting-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 
 /* PROFILE */
 .container-profile {

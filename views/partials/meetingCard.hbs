@@ -5,7 +5,9 @@
         <img src="../../images/bar.jpg" class="card-img-top" alt="bar">
     {{/if}}
     <div class="card-body">
-        <h5 class="card-title">{{this.meetingName}}</h5>
+        <div id="background-title">
+            <h5 class="card-title">{{this.meetingName}}</h5>
+        </div>
         <p class="card-text">{{this.meetingLanguage}}</p>
         <p class="card-text">{{this.meetingCity}}</p>
         <a href="/meet/meetings/{{this._id}}" class="btn btn-primary">More Details!</a>

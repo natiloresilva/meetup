@@ -5,7 +5,9 @@
     <img src="../../images/bar.jpg" class="card-img-top" alt="bar">
     {{/if}}
     <div class="card-body">
-        <h5 class="card-title">{{_doc.meetingName}}</h5>
+        <div id="background-title">
+            <h5 class="card-title">{{_doc.meetingName}}</h5>
+        </div>
         <p class="card-text">{{_doc.meetingLanguage}}</p>
         <p class="card-text">{{_doc.meetingCity}}</p>
         {{#if isOrganizer}}

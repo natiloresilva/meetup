@@ -5,7 +5,9 @@
     <img src="../../images/bar.jpg" class="card-img-top" alt="bar">
     {{/if}}
     <div class="card-body">
-        <h5 class="card-title">{{theMeeting.meetingName}}</h5>
+        <div id="background-title">
+            <h5 class="card-title">{{theMeeting.meetingName}}</h5>
+        </div>
         <p class="card-text">{{theMeeting.meetingDescription}}</p>
         <p class="card-text">{{theMeeting.meetingDate}}</p>
         <p class="card-text">{{theMeeting.meetingPoint}}</p>
@@ -25,7 +27,7 @@
     </div>
 </div>
 <div>
-    <h5>Comments:</h5>
+    <h6>Comments:</h6>
 </div>
 <div class="container-comments">
     {{#each comment}}

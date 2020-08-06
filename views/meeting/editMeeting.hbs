@@ -1,5 +1,5 @@
 <div class="container-edit-meeting">
-    <h2>Edit your meeting</h2>
+    <h2 id="background-title">Edit your meeting</h2>
 
     <form action='/meet/meetings/{{_doc._id}}/editMeeting' method='POST'>
 
@@ -39,8 +39,9 @@
         <button class="btn btn-primary float-right" type='submit'>Save changes</button>
 
     </form>
-
+    </br>
     <form action="/meet/meetings/{{_doc._id}}/delete" method="POST">
-        <button class="btn btn-outline-danger" type="submit">DELETE</button>
+        <button class="btn btn-outline-danger" type="submit">Delete</button>
     </form>
+
 </div>
