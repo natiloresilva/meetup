@@ -9,7 +9,7 @@
 
     <form action="/meet/createMeeting" method="post">
 
-        <div class="form-group">
+        <div class="form-group font-weight-bold">
             <label for="meetingName"> Name </label>
             <input type="text" class="form-control" name="meetingName" id="meetingName">
         </div>
@@ -19,28 +19,28 @@
             <input type="file" class="form-control" name="meetingImg" id="meetingImg">
         </div>}}
 
-        <div class="form-group">
-            <label for="meetingDescription"> Meeting Description </label>
+        <div class="form-group font-weight-bold">
+            <label for="meetingDescription"> Description </label>
             <input type="text" class="form-control" name="meetingDescription" id="meetingDescription">
         </div>
 
-        <div class="form-group">
-            <label for="meetingLanguage"> Meeting Language </label>
+        <div class="form-group  font-weight-bold">
+            <label for="meetingLanguage"> Languages </label>
             <input type="text" class="form-control" name="meetingLanguage" id="meetingLanguage">
         </div>
 
-        <div class="form-group">
-            <label for="meetingDate"> Meeting date </label>
+        <div class="form-group  font-weight-bold">
+            <label for="meetingDate"> Date </label>
             <input type="datetime-local" class="form-control" name="meetingDate" id="meetingDate">
         </div>
 
-        <div class="form-group">
+        <div class="form-group  font-weight-bold">
             <label for="meetingPoint"> Meeting Point </label>
             <input type="text" class="form-control" name="meetingPoint" id="meetingPoint">
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group  font-weight-bold">
             <label for="meetingCity"> City </label>
             <input type="text" class="form-control" name="meetingCity" id="meetingCity">
         </div>
@@ -54,8 +54,9 @@
             <label for="meetingParticipants"> Meeting Participants </label>
             <input type="text" class="form-control" name="meetingParticipants" id="meetingParticipants">
         </div>}}
-
+        <a class="btn btn-outline-danger" type='button' href="/meet/meetings">Back</a>
         <button class="btn btn-primary"> Create New Meeting </button> {{!Agregar enlace}}
+
 
     </form>
 </div>

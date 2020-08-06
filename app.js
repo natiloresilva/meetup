@@ -61,7 +61,7 @@ app.use(session({
   secret: 'learn and practice a new language',
   resave: true,
   saveUninitialized: true,
-  cookie: { maxAge: 600000 },
+  cookie: { maxAge: 6000000 },
   store: new MongoStore({
     mongooseConnection: mongoose.connection,
     ttl: 24 * 60 * 60 // 1 day

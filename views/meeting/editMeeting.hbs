@@ -1,31 +1,46 @@
-<div class="container-edit-profile">
-    <h1>Edit your meeting</h1>
+<div class="container-edit-meeting">
+    <h2>Edit your meeting</h2>
 
-    <form action='/meet/meetings/{{_doc._id}}/editMeeting' method='POST' enctype="multipart/form-data">
+    <form action='/meet/meetings/{{_doc._id}}/editMeeting' method='POST'>
 
         <div class="form-group font-weight-bold">
             <label for='meetingName'>Name</label>
-            <input class="form-control" type='text' name='meetingName' value='{{this.meetingName}}'>
+            <input class="form-control" type='text' name='meetingName' id="meetingName" value='{{this.meetingName}}'>
         </div>
 
         <div class="form-group font-weight-bold">
-            <label for='meetingDescription'>Meeting Description</label>
-            <input class="form-control" type='text' name='meetingDescription' value='{{this.meetingDescription}}'>
+            <label for='meetingDescription'>Description</label>
+            <input class="form-control" type='text' name='meetingDescription' id="meetingDescription" value='{{this.meetingDescription}}'>
         </div>
 
         <div class="form-group font-weight-bold">
-            <label for='meetingLanguage'>Meeting Language</label>
-            <input class="form-control" type='text' name='meetingLanguage' value='{{this.meetingLanguage}}'>
+            <label for='meetingLanguage'>Languages</label>
+            <input class="form-control" type='text' name='meetingLanguage' id="meetingLanguage" value='{{this.meetingLanguage}}'>
         </div>
 
         <div class="form-group font-weight-bold">
-            <label for='meetingDate'>Meeting date</label>
-            <input class="form-control" type='text' name='meetingDate' value='{{this.meetingDate}}'>
+            <label for='meetingDate'>Date</label>
+            <input class="form-control" type="text" name="meetingDate" id="meetingDate" value="{{this.meetingDate}}">
+        </div>
+
+        <div class="form-group font-weight-bold">
+            <label for="meetingPoint"> Meeting Point </label>
+            <input class="form-control" type="text"  name="meetingPoint" id="meetingPoint" value="{{this.meetingPoint}}">
+        </div>
+        
+        
+        <div class="form-group font-weight-bold">
+            <label for="meetingCity"> City </label>
+            <input class="form-control" type="text"  name="meetingCity" id="meetingCity" value="{{this.meetingCity}}">
         </div>
 
 
         <a class="btn btn-outline-danger" type='button' href="/meet/myPendingMeetings">Back</a>
         <button class="btn btn-primary float-right" type='submit'>Save changes</button>
 
+    </form>
+
+    <form action="/meet/meetings/{{_doc._id}}/delete" method="POST">
+        <button class="btn btn-outline-danger" type="submit">DELETE</button>
     </form>
 </div>

@@ -10,17 +10,22 @@
         <p class="card-text">{{theMeeting.meetingDate}}</p>
         <p class="card-text">{{theMeeting.meetingPoint}}</p>
         <p class="card-text">{{theMeeting.meetingCity}}</p>
+        <p class="card-text"><u>Participants:</u></p>
         {{#each theMeeting.meetingParticipants}}
             <span class="card-text">{{this.name}}</span>
         {{/each}}
         {{#if isOrganizer}}
-            <p>You are subscribed to this meeting!</p>
+        
+            <p></br><strong>You are subscribed to this meeting!</strong></p>
         {{else}}
             <form class="" method="POST" action="/meet/meetings/{{theMeeting._id}}/add">
                 <button class="btn btn-primary float-right" type='submit'>Join this meeting!</button>
             </form>
         {{/if}}
     </div>
+</div>
+<div>
+    <h5>Comments:</h5>
 </div>
 <div class="container-comments">
     {{#each comment}}

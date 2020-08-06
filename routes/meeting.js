@@ -25,12 +25,10 @@ meetingRouter.get('/meetings', (req, res) => {
 //POST
 //toma los datos que se encuentran en el formulario de la pagina 'MEETINGS' para filtrar busqueda por ciudad.
 meetingRouter.get('/meetings/search', (req, res) => {
-    console.log(req.query.meetingCity)
     //let meetingCity = req.query.meetingCity.charAt(0).toUpperCase() + req.query.meetingCity.slice(1).toLowerCase();
    // Meeting.find( {meetingCity: meetingCity} )
    Meeting.find({ "meetingCity" : { $regex : new RegExp(req.query.meetingCity, "i") } })
     .then( (meetings) => {
-        console.log(meetings)
         res.render('meeting/meetings', {meetings});
     })
     .catch( (error) => {
@@ -67,7 +65,6 @@ meetingRouter.post('/createMeeting', (req, res) => {
 
     Meeting.create(newMeeting)
     .then((newMeet) => {
-        console.log('A new meeting was created ', newMeet);
 
          // agrego la meeting a la meetingPending del usuario
         User.findById(req.session.currentUser._id)
@@ -119,7 +116,6 @@ meetingRouter.get('/myPendingMeetings', (req, res) => {
                 return { ...obj }
             }
         })) 
-        console.log(newArray)
         res.render('meeting/myPendingMeetings', {
             myMeetings: newArray
         });
@@ -129,19 +125,7 @@ meetingRouter.get('/myPendingMeetings', (req, res) => {
     })
 });
 
-//              >> PAGINA DELETE MEETING (POST)
-//POST
-//toma los datos del boton cuando borra un meeting y redirecciona a pagina principal de meetings.
-//              cambiar metodo de post a delete
-meetingRouter.post('/:id/delete', (req, res) => {
-    Meeting.findOneAndDelete(req.params.id)
-    .then( (deleteMeeting) => {
-        res.redirect('meeting/meetings', { deleteMeeting })
-    })
-    .catch( (error) => {
-        console.log('Error while deleting the meeting from the DB ', error);
-    })
-});
+
 
 
 //              >> PAGINA EDIT MEETING (GET & POST)
@@ -150,7 +134,6 @@ meetingRouter.post('/:id/delete', (req, res) => {
 meetingRouter.get('/meetings/:id/editMeeting', (req, res) => {
     Meeting.findById(req.params.id)
     .then( (editMeeting) => {
-        console.log(editMeeting)
         res.render('meeting/editMeeting', editMeeting);
     })
     .catch( (error) => {
@@ -161,20 +144,40 @@ meetingRouter.get('/meetings/:id/editMeeting', (req, res) => {
 //PATCH
 //toma los datos que se encuentran en el formulario de la pagina 'EDIT MEETING'.
 
- /*meetingRouter.post('/:id/editMeeting', (req, res) => {
-    const { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingOrganizer } = req.body;
-    Meeting.update( {_id:req.params.id}, { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingOrganizer } )
+ meetingRouter.post('/meetings/:id/editMeeting', (req, res) => {
+    const { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingCity } = req.body;
+    console.log('BODYYYYYYYYY', req.body, req.method)
+    Meeting.findByIdAndUpdate( req.params.id, { meetingName, meetingDescription, meetingLanguage, meetingDate, meetingPoint, meetingCity },{new: true} )
     .then( (editMeeting) => {
         console.log(editMeeting)
-        res.redirect('meeting/myPendingMeetings', editMeeting);
+        res.redirect('/meet/myPendingMeetings');
     })
     .catch( (error) => {
         console.log('Error while editing the meeting info ', error);
-    })
-})*/
+    }) 
+})
+
+//              >> PAGINA DELETE MEETING (POST)
+//POST
+//toma los datos del boton cuando borra un meeting y redirecciona a pagina principal de meetings.
+//              cambiar metodo de post a delete
+meetingRouter.post('/meetings/:id/delete', (req, res) => {
+    console.log('PARAMSSSSSSSSSSSSS',req.params.id)
+    Meeting.deleteOne({_id: req.params.id})
+    
+        .then((deleteMeeting) => {
+            console.log('DELETEEEEEE',deleteMeeting)
+            res.redirect('/meet/myPendingMeetings')
+        })
+        .catch((error) => {
+            console.log('Error while deleting the meeting from the DB ', error);
+        })
+});
 
 //POST - Se realiza este metodo para mandar datos desde un form 
-meetingRouter.post("/:id/editMeeting", (req, res, next) => {
+/*
+meetingRouter.post("/meetings/:id/editMeeting", (req, res, next) => {
+    console.log('ingresa')
     Meeting.findById(req.params.id)
         .then(editMeeting => {
 
@@ -184,7 +187,7 @@ meetingRouter.post("/:id/editMeeting", (req, res, next) => {
                 meetingLanguage,
                 meetingDate,
                 meetingPoint,
-                meetingOrganizer
+                meetingCity,
             } = req.body;
             const updatedMeeting = {
                 meetingName, 
@@ -192,7 +195,7 @@ meetingRouter.post("/:id/editMeeting", (req, res, next) => {
                 meetingLanguage,
                 meetingDate,
                 meetingPoint, 
-                meetingOrganizer
+                meetingCity,
             };
 
 
@@ -202,12 +205,12 @@ meetingRouter.post("/:id/editMeeting", (req, res, next) => {
                 .then(() => Meeting.findById(req.params.id))
                 .then(updatedMeeting => {
                    req.params.id = updatedMeeting;
-                    res.redirect(`meeting/myPendingMeetings`);
+                    res.redirect(`/meet/meetings/myPendingMeetings`);
                 })
                 .catch(err => console.log(err));
         })
         .catch(err => console.log(err));
-});
+}); */
 
 
 //              >> PAGINA MEETING DETAILS (GET)
@@ -217,7 +220,6 @@ meetingRouter.get('/meetings/:id', (req, res) => {
     Meeting.findById(req.params.id)
     .populate('meetingParticipants')
     .then( (theMeeting) => {
-        console.log(theMeeting);
         const isOrganizer = req.session.currentUser._id == theMeeting.meetingOrganizer;
         res.render('meeting/meetingDetails', {theMeeting, isOrganizer})
     })
