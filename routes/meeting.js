@@ -219,6 +219,7 @@ meetingRouter.post("/meetings/:id/editMeeting", (req, res, next) => {
 meetingRouter.get('/meetings/:id', (req, res) => {
     Meeting.findById(req.params.id)
     .populate('meetingParticipants')
+    .populate('commentArray')
     .then( (theMeeting) => {
         const isOrganizer = req.session.currentUser._id == theMeeting.meetingOrganizer;
         res.render('meeting/meetingDetails', {theMeeting, isOrganizer})

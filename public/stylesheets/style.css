@@ -1,6 +1,7 @@
 *{
   margin: 0px;
   padding: 0px;
+  font-family: 'Quicksand',sans-serif;
 }
 
 body {
@@ -17,6 +18,38 @@ body {
 }
 
 /* HOME */
+.container-image {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  background-image: url(/images/MeetUp.png);
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 70%;
+  height: 50%;
+}
+
+.shadow-container-image {
+  background-color: rgba(0, 0, 0, 0.3);
+  height: 100vh;
+}
+
+.about-us-container {
+  justify-content: center;
+  text-align: center;
+  padding: 1em;
+}
+
+
+/*.logo {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+.logo>img {
+  width: 100%;
+}
 
 /*BACKGROUND TITLE*/
 #background-title {
@@ -24,6 +57,7 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  text-align: center;
 }
 
 h2 {
@@ -89,7 +123,7 @@ h5 {
 
 /* FAQ */
 .faq {
-  padding-top: 50px;
+  padding-top: 30px;
   margin-left: 5%;
   width: 90%;
   text-align: center;
@@ -114,14 +148,14 @@ h5 {
     position: fixed;
     width: 100%;
     z-index: 1000;
-    border-bottom: 2.5px solid lightskyblue;
+    border-bottom: 2.5px solid #80bfff;
     -webkit-box-shadow: 2px 10px 11px -6px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 2px 10px 11px -6px rgba(0, 0, 0, 0.75);
     box-shadow: 2px 10px 11px -6px rgba(0, 0, 0, 0.75);
 }
 
 .footer {
-  background-color:lightskyblue;
+  background-color:#80bfff;
   height: 50px;
   position: fixed;
   left: 0;
@@ -207,6 +241,10 @@ h5 {
   margin-left: 5%;
   width: 90%;
   margin-top: 50px;
+}
+
+.container-comments{
+  padding: 1.2em;
 }
 
 @media (min-width: 576px) {

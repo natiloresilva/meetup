@@ -14,32 +14,38 @@
         <p class="card-text">{{theMeeting.meetingCity}}</p>
         <p class="card-text"><u>Participants:</u></p>
         {{#each theMeeting.meetingParticipants}}
-            <span class="card-text">{{this.name}}</span>
+        <span class="card-text">{{this.name}}</span>
         {{/each}}
         {{#if isOrganizer}}
-        
-            <p></br><strong>You are subscribed to this meeting!</strong></p>
+
+        <p></br><strong>You are subscribed to this meeting!</strong></p>
         {{else}}
-            <form class="" method="POST" action="/meet/meetings/{{theMeeting._id}}/add">
-                <button class="btn btn-primary float-right" type='submit'>Join this meeting!</button>
-            </form>
+        <form class="" method="POST" action="/meet/meetings/{{theMeeting._id}}/add">
+            <button class="btn btn-primary float-right" type='submit'>Join this meeting!</button>
+        </form>
         {{/if}}
     </div>
 </div>
-<div>
-    <h6>Comments:</h6>
-</div>
 <div class="container-comments">
-    {{#each comment}}
     <div>
-        <p class="card-text">{{theMeeting.commentArray.comment}}</p>
+        <h6>Comments:</h6>
     </div>
-    {{/each}}
+    <div class="container-comments">
+        {{#each theMeeting.commentArray}}
+        <div>
+            <p class="card-text">{{comment}}</p>
+        </div>
+        {{/each}}
+    </div>
 </div>
+
+
+
 <div class="container-post-comment">
     <form class="" method="POST" action="/comments/{{theMeeting._id}}/comment">
         <div class="form-group">
-            <textarea class="form-control" name="comment" id="comment" rows="3" placeholder="Enter your comment here"></textarea>
+            <textarea class="form-control" name="comment" id="comment" rows="3"
+                placeholder="Enter your comment here"></textarea>
         </div>
         <a class="btn btn-outline-danger" type='button' href="/meet/meetings">Back</a>
         <button class="btn btn-primary float-right" type="submit">Comment</button>
